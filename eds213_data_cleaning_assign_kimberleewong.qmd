@@ -1,0 +1,366 @@
+---
+title: "Assignment 2"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+## Intro
+```{r}
+#| message: false  
+
+# Libraries
+library(tidyverse)
+
+# file names
+datadir_raw <- file.path("data","raw")
+
+datadir_processed <- file.path("data", "processed/")
+
+snowsurvey_file <- "snow_cover.csv"
+```
+
+```{r}
+# Import processed data with fixed Snow_cover column
+snowsurvey_csv <- read_csv(file.path(datadir_processed, snowsurvey_file))
+
+# Look at Water_cover, Land_cover, and Total_cover
+glimpse(snowsurvey_csv)
+```
+
+## Land_cover
+
+### Data Exploration
+```{r}
+# Check out why it's a character variable
+snowsurvey_csv %>%
+ count(Land_cover) %>% 
+  print(n = 101)
+```
+There are interesting results. Similar to the Snow_cover, there are periods, dashes, and unks, but there are also negative numbers now. 
+
+```{r}
+# Check on non-numeric values
+snowsurvey_csv %>% 
+  count(Land_cover) %>% 
+  filter(is.na(as.numeric(Land_cover))) %>% 
+  view()
+```
+
+### Data Cleaning
+
+#### `.` values
+```{r}
+# Check observations where land_cover is a dot
+snowsurvey_csv %>%
+  filter(Land_cover == ".") %>%
+  View()
+```
+
+I'm going to replace the dots with NAs to match what we did in the Snow_cover manipulation and because the metadata doesn't specify.
+```{r}
+snowsurvey_fixed <- snowsurvey_csv %>% 
+  mutate(Land_cover = ifelse(Land_cover == ".", NA, Land_cover))
+```
+
+#### `-` values
+
+Is the problem true for '-' as well?
+```{r}
+# Check observations where land_cover is a dash
+snowsurvey_csv %>%
+  filter(Land_cover == "-") %>%
+  View() 
+```
+
+
+Yep, the problem is like the dots, so I'm also going to set this to NA. 
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Land_cover = ifelse(Land_cover == "-", NA, Land_cover))
+
+```
+#### `n/a` values
+
+"n/a" will also be replaced with NA, but I will view it first.
+
+```{r}
+snowsurvey_csv %>%
+  filter(Land_cover == "n/a") %>%
+  View()
+  
+```
+
+
+Yep, it has the same problem.
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Land_cover = ifelse(Land_cover == "n/a", NA, Land_cover))
+ 
+```
+
+#### `unk` values
+
+'unk' is most likely short for unknown, so I will also replace this with NA. 
+
+```{r}
+snowsurvey_csv %>%  
+  filter(Land_cover == "unk") %>%
+  View()
+```
+
+
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Land_cover = ifelse(Land_cover == "unk", NA, Land_cover))
+```
+
+### Going numeric
+
+Check that there are no non-numerics left in the Land_cover column.
+```{r}
+snowsurvey_fixed %>%
+  count(Land_cover) %>%
+  filter(is.na(as.numeric(Land_cover)))
+```
+
+Now that there are only numerics left, I can change the column type to numeric
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Land_cover = as.numeric(Land_cover))
+```
+
+### More cleaning
+I will now check that the percentages are less than 100.
+```{r}
+ snowsurvey_fixed %>% 
+  filter(Land_cover > 100)
+```
+
+Nothing is more than 100, so nothing there needs to be changed. But, I will check for negatives because those would also not make sense. 
+```{r}
+ snowsurvey_fixed %>% 
+  filter(Land_cover < 0)
+```
+There are two values that are negatives, and one is negative 100. I'm going to set those both to NA. 
+
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Land_cover = ifelse(Land_cover < 0, NA, Land_cover))
+
+# Check Land_cover again
+snowsurvey_fixed %>%
+ count(Land_cover) %>% 
+  print(n = 101)
+```
+Everything looks good, so I'm going to move on to the Water_cover column with the new fixed dataframe.
+
+## Water_cover
+
+### Data Exploration
+```{r}
+# Check out why it's a character variable
+snowsurvey_fixed %>%
+ count(Water_cover) %>% 
+  print(n = 95)
+```
+There seem to be the same problems as with Land_cover.
+
+```{r}
+# Check on non-numeric values
+snowsurvey_fixed %>% 
+  count(Water_cover) %>% 
+  filter(is.na(as.numeric(Water_cover))) %>% 
+  view()
+```
+
+### Data Cleaning
+
+#### `.` values
+```{r}
+# Check observations where water_cover is a dot
+snowsurvey_fixed %>%
+  filter(Water_cover == ".") %>%
+  View()
+```
+
+I'm going to replace the dots with NAs to match what we did in the Snow_cover and Land_cover manipulation and because the metadata doesn't specify.
+```{r}
+snowsurvey_fixed <- snowsurvey_csv %>% 
+  mutate(Water_cover = ifelse(Water_cover == ".", NA, Water_cover))
+```
+
+#### `-` values
+
+Is the problem true for '-' as well?
+```{r}
+# Check observations where water_cover is a dash
+snowsurvey_fixed %>%
+  filter(Water_cover == "-") %>%
+  View()
+```
+
+
+Yep, the problem is like the dots, so I'm also going to set this to NA. 
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Water_cover = ifelse(Water_cover == "-", NA, Water_cover))
+
+```
+#### `n/a` values
+
+"n/a" will also be replaced with NA, but I will view it first.
+
+```{r}
+snowsurvey_fixed %>%
+  filter(Water_cover == "n/a") %>%
+  View()
+  
+```
+
+
+Yep, it has the same problem.
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Water_cover = ifelse(Water_cover == "n/a", NA, Water_cover))
+ 
+```
+
+#### `unk` values
+
+'unk' is most likely short for unknown, so I will also replace this with NA. 
+
+```{r}
+snowsurvey_fixed %>%  
+  filter(Water_cover == "unk") %>%
+  View()
+```
+
+
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Water_cover = ifelse(Water_cover == "unk", NA, Water_cover))
+```
+
+### Going numeric
+
+Check that there are no non-numerics left in the Water_cover column.
+```{r}
+snowsurvey_fixed %>%
+  count(Water_cover) %>%
+  filter(is.na(as.numeric(Water_cover)))
+```
+
+Now that there are only numerics left, I can change the column type to numeric.
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Water_cover = as.numeric(Water_cover))
+```
+
+### More cleaning
+I will now check that the percentages are less than 100.
+```{r}
+ snowsurvey_fixed %>% 
+  filter(Water_cover > 100)
+```
+
+There is a value of 353 that does not make sense, and the metadata doesn't specify, so I will set to NA like we did with Snow_cover when there were values over 100.
+
+```{r}
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Water_cover = ifelse(Water_cover > 100, NA, Water_cover))
+```
+
+Let's check for negative values now.
+```{r}
+ snowsurvey_fixed %>% 
+  filter(Water_cover < 0)
+```
+No negative values!
+
+```{r}
+# Check Water_cover again
+snowsurvey_fixed %>%
+ count(Water_cover) %>% 
+  print(n = 74)
+```
+Everything looks good! Let's move to total_cover column.
+
+## Total_cover
+
+### Data Exploration
+```{r}
+# Look at total_cover
+snowsurvey_fixed %>%
+ count(Total_cover) %>% 
+  print(n = 39)
+```
+Same problems as the last two, so I will quickly replace all the non-numeric to match what we did with Snow_cover, Land_cover, and Water_cover and change the column to numeric.
+```{r}
+# Check on non-numeric values
+snowsurvey_fixed %>% 
+  count(Total_cover) %>% 
+  filter(is.na(as.numeric(Total_cover))) %>% 
+  view()
+```
+
+### Data Cleaning
+
+```{r}
+# No mention of these non-numeric values in metadata so assume they are NA
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Total_cover = ifelse(Total_cover == ".", NA, Total_cover)) %>% 
+  mutate(Total_cover = ifelse(Total_cover == "-", NA, Total_cover)) %>% 
+  mutate(Total_cover = ifelse(Total_cover == "n/a", NA, Total_cover)) %>% 
+  mutate(Total_cover = ifelse(Total_cover == "<row r=\\64\\ spans=\\1:11\\ x14ac:dyDescent=\\0.2\\>", NA, Total_cover))
+
+# Check to make sure NAs are the only non-numeric value
+snowsurvey_fixed %>%
+  count(Total_cover) %>% 
+  filter(is.na(as.numeric(Total_cover)))
+
+# Now change Total_cover to numeric column
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Total_cover = as.numeric(Total_cover))
+
+```
+
+
+### More cleaning
+Let's make sure total_cover isn't more than 100 and the sum of the other three columns (Snow_cover, Land_cover, Water_cover). 
+```{r}
+# View values in Total_cover
+snowsurvey_fixed %>%
+  count(Total_cover) %>% 
+  print(n = 35)
+
+# There are some values that are not 100
+# Remake `Total_cover` column to make sure it's the sum of the other three columns
+snowsurvey_fixed$Total_cover <- snowsurvey_fixed$Snow_cover + snowsurvey_fixed$Land_cover + snowsurvey_fixed$Water_cover
+
+# Check for values less than 100
+snowsurvey_fixed %>% filter(Total_cover < 100)
+
+# The metadata only says this column should always equal 100, so I will replace any non 100s to NA
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Total_cover = ifelse(Total_cover < 100, NA, Total_cover))
+
+# Check for values over 100
+snowsurvey_fixed %>% filter(Total_cover > 100)
+
+# The metadata only says this column should always equal 100, so change non 100s to NA
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Total_cover = ifelse(Total_cover > 100, NA, Total_cover))
+
+# Check to make sure there are only vlaues of 100 or NA in Total_cover
+snowsurvey_fixed %>%
+  count(Total_cover)
+```
+Now that Total_cover is numeric and either 100 or NA, it looks good!
+
+### Save cleaned df to csv
+```{r}
+# Write the file
+write_csv(snowsurvey_fixed, file.path("data", "processed", "all_cover_fixed_kimberleewong.csv"))
+```
+
