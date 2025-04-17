@@ -88,7 +88,6 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
 snowsurvey_csv %>%
   filter(Land_cover == "n/a") %>%
   View()
-  
 ```
 
 
@@ -96,7 +95,6 @@ Yep, it has the same problem.
 ```{r}
 snowsurvey_fixed <- snowsurvey_fixed %>% 
   mutate(Land_cover = ifelse(Land_cover == "n/a", NA, Land_cover))
- 
 ```
 
 #### `unk` values
@@ -186,7 +184,7 @@ snowsurvey_fixed %>%
 
 I'm going to replace the dots with NAs to match what we did in the Snow_cover and Land_cover manipulation and because the metadata doesn't specify.
 ```{r}
-snowsurvey_fixed <- snowsurvey_csv %>% 
+snowsurvey_fixed <- snowsurvey_fixed %>% 
   mutate(Water_cover = ifelse(Water_cover == ".", NA, Water_cover))
 ```
 
@@ -215,7 +213,6 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
 snowsurvey_fixed %>%
   filter(Water_cover == "n/a") %>%
   View()
-  
 ```
 
 
@@ -336,6 +333,7 @@ snowsurvey_fixed %>%
 
 # There are some values that are not 100
 # Remake `Total_cover` column to make sure it's the sum of the other three columns
+
 snowsurvey_fixed$Total_cover <- snowsurvey_fixed$Snow_cover + snowsurvey_fixed$Land_cover + snowsurvey_fixed$Water_cover
 
 # Check for values less than 100
