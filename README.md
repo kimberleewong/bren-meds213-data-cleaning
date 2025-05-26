@@ -17,3 +17,21 @@ Data on climatic conditions, prey abundance, and predators were also collected. 
 
 See `01_ASDN_Readme.txt` provided in the [course data repository](https://github.com/UCSB-Library-Research-Data-Services/bren-meds213-spring-2024-class-data) for full metadata information about this data set.
 
+## Repository Structure
+```
+├── README.md
+├── .gitignore
+├── .Rprofile
+├── eds213_data_cleaning_assign_kimberleewong.qmd   # File for data cleaning for homework 2
+├── data-cleaning_empty.qmd # Example data cleaning file
+└── docs/ # Rendered files
+└── data/
+    ├── processed/                                          # Processed data/
+    │   ├── all_cover_fixed_kimberleewong.csv       # Fully cleaned snow survey data
+    │   └── snow_cover.csv                                  # Partially cleaned
+    │   └── species_presence.csv                             # Species identified at site 
+    └── raw/                                                # Prepprocessed data/
+        ├── 01_ASDN_Readme.txt                              # Original metadata
+        ├── ASDN_Daily_Species.csv                          # Original species survey data
+        └── ASDN_Snow_Survey                                # Original snow cover survey data
+```
