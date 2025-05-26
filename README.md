@@ -44,6 +44,9 @@ Metadata for these files can be found on the `01_ASDN_Readme.txt` file located i
 ### Mutiple Versions
 Data was processed from this MEDS EDS-213 Data Cleaning Repository: [bren-meds213-data-cleaning](https://github.com/UCSB-Library-Research-Data-Services/bren-meds213-data-cleaning)
 
+
+## Data-specific Information For:
+
 ### Metadata
 Metadata for the `all_cover_fixed_kimberleewong.csv` file in data/processed folder in this repository is as follows:
 
@@ -65,3 +68,26 @@ Metadata for the `all_cover_fixed_kimberleewong.csv` file in data/processed fold
 | Observer          | Person who collected the data       | Character  |
 | Notes       | Any notes by the Observer                      | Character   |
 
+**Missing Data:** Missing data are denoted as `NA`. For `Total_cover_recalc`, `NA` are present when `Snow_cover`, `Water_cover` and `Land_cover` all contain `NA` values. 
+
+**No specialized formatting for this data**
+
+## Sharing/Access Information
+
+### Licenses/restrictions placed on the data:
+The original data is licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+
+### Links to publications that cite or use the data:
+[Annual adult survival drives trends in Arctic-breeding shorebirds but knowledge gaps in other vital rates remain](https://academic.oup.com/condor/article/122/3/duaa026/5857122)
+[Life-history tradeoffs revealed by seasonal declines in reproductive traits of Arctic-breeding shorebirds](https://www.researchgate.net/publication/320616760_Life-history_tradeoffs_revealed_by_seasonal_declines_in_reproductive_traits_of_Arctic-breeding_shorebirds)
+[Environmental and ecological conditions at Arctic breeding sites have limited effects on true survival rates of adult shorebirds](https://bioone.org/journals/the-auk/volume-135/issue-1/AUK-17-107.1/Environmental-and-ecological-conditions-at-Arctic-breeding-sites-have-limited/10.1642/AUK-17-107.1.full)
+
+### Links to other publicly accessible locations of the data:
+Information for this data can be found on the NSF Arctic Data Center website [here](https://arcticdata.io/catalog/view/doi%3A10.18739%2FA2CD5M)
+
+Data was cleaned from the original `ASDN_Snow_cover.csv` file found on the [NSF Arctic Data Center Website](https://arcticdata.io/catalog/view/doi%3A10.18739%2FA2CD5M)
+
+### Recommended citation for the project:
+Please cite the data in the following ways:
+- Using the full dataset, cite as: Lanctot, RB, SC Brown, and BK Sandercock. 2017. Arctic Shorebird Demographics Network. NSF Arctic Data Center. doi: INSERT HERE
+- Using data from only one or a few sites, cite for the selected Site as: Lanctot, RB and ST Saalfeld. 2017. Barrow, 2014. Arctic Shorebird Demographics Network. NSF Arctic Data Center. doi:10.18739/A2CD5M.
