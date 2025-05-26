@@ -17,7 +17,9 @@ Data on climatic conditions, prey abundance, and predators were also collected. 
 
 See `01_ASDN_Readme.txt` provided in the [course data repository](https://github.com/UCSB-Library-Research-Data-Services/bren-meds213-spring-2024-class-data) for full metadata information about this data set.
 
-## Repository Structure
+## Data and File Overview
+
+### Repository Structure
 ```
 ├── README.md
 ├── .gitignore
@@ -35,3 +37,31 @@ See `01_ASDN_Readme.txt` provided in the [course data repository](https://github
         ├── ASDN_Daily_Species.csv                          # Original species survey data
         └── ASDN_Snow_Survey                                # Original snow cover survey data
 ```
+Related but unhoused in this repository data: `Bird_captures`, `Bird_eggs`, `Bird_nests`, `Bird_resights`, `Bird_sexes`, `Camp_info`, `Camp_assignment`, `Daily_pred_lemm`, `Daily_species`, `Daily_species_effort`, `Geodata`, `Inverts`, `Lemming_counts`,  `Lemming_nests`, `Lemming_trap`, `Pred_nests`, `Pred_point_counts`, `Study_Plot`, `Surface_water`, `Weather_HOBO`, `Weather_precip_manual`, `Weather_snow_manual`. 
+
+Metadata for these files can be found on the `01_ASDN_Readme.txt` file located in the `raw` folder. 
+
+### Mutiple Versions
+Data was processed from this MEDS EDS-213 Data Cleaning Repository: [bren-meds213-data-cleaning](https://github.com/UCSB-Library-Research-Data-Services/bren-meds213-data-cleaning)
+
+### Metadata
+Metadata for the `all_cover_fixed_kimberleewong.csv` file in data/processed folder in this repository is as follows:
+
+**Number of variables:** 11
+
+**Number of rows:** 42,831
+
+| Variable         | Description                        | Value               |
+|---------------|------------------------------------|-----------------------|
+| Site          | Four letter abbreviation code that represents the location where the data was collected                | Character      |
+| Year        | Year of data collection    | Numeric                |
+| Date          | Date of data collection        | Character |
+| Plot       | Four letter abbreviation code that represents where in the Site the data was collected                     | Character  |
+| Location  | Where data collection occurred within each Plot                | Character            |
+| Snow_cover         | Percentage of snow cover                         | Numeric               |
+| Water_cover          | Percentage of water cover               | Numeric      |
+| Land_cover        | Percentage of land cover          | Numeric                |
+| Total_cover  | Percentage of total cover recalculated from cleaned data               | Numeric           |
+| Observer          | Person who collected the data       | Character  |
+| Notes       | Any notes by the Observer                      | Character   |
+
